@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity$PlaceholderFragment">
+
+    <Spinner
+        android:id="@+id/messages"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dialog"
+        android:text="Message"/>
+
+    <RadioGroup
+        android:id="@+id/type"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/messages">
+
+        <RadioButton
+            android:id="@+id/radioWhatsapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="messageTypeSelected"
+            android:text="Whatsapp"/>
+
+        <RadioButton
+            android:id="@+id/radioEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="messageTypeSelected"
+            android:text="Email"/>
+
+        <RadioButton
+            android:id="@+id/radioSMS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="messageTypeSelected"
+            android:text="SMS"/>
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/contacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contacts"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/type"
+        android:onClick="loadContacts"/>
+
+    <EditText
+        android:id="@+id/number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:layout_below="@id/type"
+        android:layout_toLeftOf="@id/contacts"
+        android:hint="+551199999999"
+        android:layout_alignParentLeft="true"/>
+
+</RelativeLayout>

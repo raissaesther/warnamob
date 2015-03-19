@@ -1,0 +1,1 @@
+INSERT INTO Warna(id, message, lang, active) values (72, "Alguém lhe recomendou usar o serviço de aviso anônimo");

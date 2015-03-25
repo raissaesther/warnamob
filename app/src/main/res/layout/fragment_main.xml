@@ -18,6 +18,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:checkedButton="@+id/radioWhatsapp"
         android:layout_below="@id/messages">
 
         <RadioButton
@@ -50,7 +51,7 @@
         android:text="Contacts"
         android:layout_alignParentRight="true"
         android:layout_below="@id/type"
-        android:onClick="loadContacts"/>
+        android:onClick="loadContactsPhones"/>
 
     <EditText
         android:id="@+id/number"
@@ -58,8 +59,8 @@
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:layout_below="@id/type"
+        android:ems="10"
         android:layout_toLeftOf="@id/contacts"
         android:hint="+551199999999"
         android:layout_alignParentLeft="true"/>
-
 </RelativeLayout>

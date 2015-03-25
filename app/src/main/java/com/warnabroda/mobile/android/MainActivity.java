@@ -1,35 +1,31 @@
 package com.warnabroda.mobile.android;
 
-import android.provider.ContactsContract.CommonDataKinds.Email;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.provider.ContactsContract.Data;
-
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Email;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.warnabroda.mobile.android.controller.WarnaSpinnerAdapter;
-import com.warnabroda.mobile.android.service.model.Warna;
 
 
 public class MainActivity extends Activity {
 
-    public static final int PICK_CONTAC = 1;
+    private static final String TAG = "MAIN";
+
+    public static final int PICK_CONTACT_PHONE  = 1;
+    public static final int PICK_CONTACT_EMAIL  = 2;
 
 
     @Override
@@ -67,7 +63,12 @@ public class MainActivity extends Activity {
     }
 
     public void messageTypeSelected(View view) {
-        System.out.println("Escolhido" + view);
+        int id = view.getId();
+        if (id == R.id.radioEmail) {
+            Log.d(TAG, "Trocar para Email");
+        } else if (id == R.id.radioWhatsapp || id == R.id.radioSMS) {
+            Log.d(TAG, "Trocar para Número");
+        }
     }
 
     /**
@@ -88,63 +89,50 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void loadContacts(View view) {
-        Log.d("Abrindo contatos", "Abrindo contatos");
-        Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-        startActivityForResult(intent, PICK_CONTAC);
+    public void loadContactsPhones(View view) {
+        Intent intent = new Intent(Intent.ACTION_PICK, Phone.CONTENT_URI);
+        startActivityForResult(intent, PICK_CONTACT_PHONE);
+    }
+
+    public void loadContactsEmails(View view) {
+        Intent intent = new Intent(Intent.ACTION_PICK, Email.CONTENT_URI);
+        startActivityForResult(intent, PICK_CONTACT_EMAIL);
     }
 
     @Override
     public void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
 
-        switch (reqCode) {
-            case (PICK_CONTAC) :
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri contactData = data.getData();
-                    String id = contactData.getLastPathSegment();
+        if (resultCode == Activity.RESULT_OK) {
+            Uri contactData = data.getData();
+            String id = contactData.getLastPathSegment();
 
-                    this.extractEmail(id);
+            switch (reqCode) {
+                case (PICK_CONTACT_EMAIL):
+                    String email = extract(id, Email.CONTENT_URI, Email.DATA);
+                    this.fillNumber(email);
+                    break;
 
-//                    Cursor c = getContentResolver().query(Data.CONTENT_URI,
-//                            new String[] {Data._ID, Phone.NORMALIZED_NUMBER, Phone.TYPE, Phone.LABEL},
-//                            Data.RAW_CONTACT_ID + "=?" + " AND "
-//                                    + Data.MIMETYPE + "='" + Phone.CONTENT_ITEM_TYPE + "'",
-//                            new String[] {String.valueOf(id)}, null);
-//
-//                    if (c.moveToFirst()) {
-//                        String phone = c.getString(c.getColumnIndex(Phone.NORMALIZED_NUMBER));
-//                        String phoneLabel = c.getString(c.getColumnIndex(Phone.LABEL));
-//                        String phoneType = c.getString(c.getColumnIndex(Phone.TYPE));
-//                        Log.d("Phone: " + phoneLabel, phoneType + " - " + phone);
-////                        this.fillNumber(name);
-//                    }
-                }
-                break;
+                case (PICK_CONTACT_PHONE):
+                    String phone = extract(id, Phone.CONTENT_URI, Phone.NUMBER);
+                    this.fillNumber(phone);
+                    break;
+            }
         }
     }
 
-    private String extractEmail(String id) {
-        // query for everything email
-        String[] projection = {Data._ID, Phone.NORMALIZED_NUMBER, Phone.NUMBER, Phone.TYPE, Phone.LABEL};
-        Cursor cursor = getContentResolver().query(
-                Phone.CONTENT_URI, projection,
-                Phone.CONTACT_ID + "=?" + " AND " + Phone.HAS_PHONE_NUMBER,
-                new String[]{id}, null);
+    private String extract(String id, Uri contentUri, String data) {
+        Cursor cursor = getContentResolver().query(contentUri, null, "_id" + "=?", new String[]{id}, null);
+        Boolean valueExists = cursor.moveToFirst();
+        int dataIndex = cursor.getColumnIndex(data);
+        String dataValue = "";
 
-        cursor.moveToFirst();
-        Log.d("DATA:", cursor.getString(cursor.getColumnIndex(Phone.LABEL)));
-        Log.d("DATA:", cursor.getString(cursor.getColumnIndex(Phone.TYPE)));
-        Log.d("DATA:", cursor.getString(cursor.getColumnIndex(Phone.NUMBER)));
-        Log.d("DATA:", cursor.getString(cursor.getColumnIndex(Phone.NORMALIZED_NUMBER)));
-//        String columns[] = cursor.getColumnNames();
-//        for (String column : columns) {
-//
-//            int index = cursor.getColumnIndex(column);
-//            Log.v("DEBUG", "Column: " + column + " == ["
-//                    + cursor.getString(index) + "]");
-//        }
-        return null;
+        while (valueExists) {
+            dataValue = cursor.getString(dataIndex);
+            dataValue = dataValue.trim();
+            valueExists = cursor.moveToNext();
+        }
+        return dataValue;
     }
 
     private void fillNumber(String number) {

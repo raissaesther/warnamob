@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">warnabroda</string>
+    <string name="send_button">Enviar Warna</string>
     <string name="action_settings">About</string>
 </resources>

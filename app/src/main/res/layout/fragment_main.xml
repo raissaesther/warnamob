@@ -63,4 +63,15 @@
         android:layout_toLeftOf="@id/contacts"
         android:hint="+551199999999"
         android:layout_alignParentLeft="true"/>
+
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="sendMessage"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/number"
+        android:text="@string/send_button"
+        />
 </RelativeLayout>

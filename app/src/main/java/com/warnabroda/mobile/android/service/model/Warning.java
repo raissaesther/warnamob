@@ -9,7 +9,7 @@ public class Warning {
 
     private String contact;
     private int id_contact_type;
-    private int id_message;
+    private long id_message;
     private String lang_key;
     private Date created_date;
 
@@ -29,11 +29,11 @@ public class Warning {
         this.id_contact_type = id_contact_type;
     }
 
-    public int getId_message() {
+    public long getId_message() {
         return id_message;
     }
 
-    public void setId_message(int id_message) {
+    public void setId_message(long id_message) {
         this.id_message = id_message;
     }
 

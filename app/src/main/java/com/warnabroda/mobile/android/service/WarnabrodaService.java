@@ -5,6 +5,8 @@ import com.warnabroda.mobile.android.service.model.Warning;
 
 import java.util.List;
 
+import retrofit.client.Response;
+import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
 
@@ -14,7 +16,7 @@ import retrofit.http.POST;
 public interface WarnabrodaService {
 
     @POST("/warnabroda/warnings")
-    public void sendWarning(Warning warning);
+    public Response sendWarning(@Body Warning warning);
 
     @GET("/warnabroda/messages/{language}")
     public List<Warna> getWarnas(String language);

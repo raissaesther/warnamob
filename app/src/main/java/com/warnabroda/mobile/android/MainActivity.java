@@ -16,8 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.warnabroda.mobile.android.controller.WarnaSpinnerAdapter;
+import com.warnabroda.mobile.android.service.WarnaService;
+import com.warnabroda.mobile.android.service.model.Warna;
+import com.warnabroda.mobile.android.service.model.Warning;
+
+import java.util.Date;
 
 
 public class MainActivity extends Activity {
@@ -26,6 +32,15 @@ public class MainActivity extends Activity {
 
     public static final int PICK_CONTACT_PHONE  = 1;
     public static final int PICK_CONTACT_EMAIL  = 2;
+
+    private WarnaService warnaService = null;
+
+    private WarnaService getWarnaService() {
+        if (warnaService == null) {
+            warnaService = new WarnaService(getApplicationContext());
+        }
+        return warnaService;
+    }
 
 
     @Override
@@ -138,5 +153,24 @@ public class MainActivity extends Activity {
     private void fillNumber(String number) {
         EditText textField = (EditText) this.findViewById(R.id.number);
         textField.setText(number);
+    }
+
+    public void sendMessage(View view) {
+        Warning warning = new Warning();
+        warning.setContact(getContact());
+        warning.setCreated_date(new Date());
+        warning.setId_message(getMessageId());
+        getWarnaService().sendWarna(warning);
+        Toast.makeText(getApplicationContext(), "Enviou", Toast.LENGTH_SHORT).show();
+    }
+
+    private String getContact(){
+        return ((EditText)this.findViewById(R.id.number)).getText().toString();
+    }
+
+    private long getMessageId() {
+//        Warna warna = (Warna)((Spinner)this.findViewById(R.id.messages)).getSelectedItem();
+//        return warna.getId();
+        return 1;
     }
 }

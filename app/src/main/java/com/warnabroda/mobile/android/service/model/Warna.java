@@ -10,8 +10,8 @@ public class Warna extends RealmObject {
 
     @PrimaryKey
     private long id;
-    private String message;
-    private String lang;
+    private String name;
+    private String lang_key;
     private boolean active;
 
     public long getId() {
@@ -22,20 +22,20 @@ public class Warna extends RealmObject {
         this.id = id;
     }
 
-    public String getMessage() {
-        return message;
+    public String getName() {
+        return name;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLang() {
-        return lang;
+    public String getLang_key() {
+        return lang_key;
     }
 
-    public void setLang(String lang) {
-        this.lang = lang;
+    public void setLang_key(String lang_key) {
+        this.lang_key = lang_key;
     }
 
     public boolean isActive() {

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Warn A Broda</string>
+    <string name="contacts">Brodas</string>
+    <string name="send_button">Avisa lá</string>
+    <string name="about">Sobre</string>
+    <string name="action_settings">Configurações</string>
+
+    <string name="title_activity_settings">Configurações</string>
+
+    <string name="language">Idioma</string>
+    <string name="language_dialog">Idioma preferido</string>
+
+</resources>

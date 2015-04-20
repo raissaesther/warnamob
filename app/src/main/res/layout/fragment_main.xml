@@ -51,7 +51,7 @@
         android:text="Contacts"
         android:layout_alignParentRight="true"
         android:layout_below="@id/type"
-        android:onClick="loadContactsPhones"/>
+        android:onClick="loadContats"/>
 
     <EditText
         android:id="@+id/number"

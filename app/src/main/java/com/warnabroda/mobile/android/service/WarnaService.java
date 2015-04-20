@@ -3,6 +3,7 @@ package com.warnabroda.mobile.android.service;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.warnabroda.mobile.android.service.model.Warna;
@@ -24,6 +25,7 @@ public class WarnaService {
     private WarnabrodaService service;
     private Realm realm;
     private Context context;
+    private final String TAG = "WarnaService";
 
     public WarnaService(Context context) {
         this.context = context;
@@ -53,7 +55,7 @@ public class WarnaService {
                 try {
                     response = service.sendWarning(warning);
                 } catch (Exception e) {
-                    Toast.makeText(thisContext, "Ocorreu um erro", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, e.getMessage(), e);
                 }
                 return response;
             }

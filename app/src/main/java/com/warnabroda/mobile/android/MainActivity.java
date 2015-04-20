@@ -3,7 +3,6 @@ package com.warnabroda.mobile.android;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -44,6 +45,8 @@ public class MainActivity extends Activity {
 
     private WarnaService warnaService = null;
 
+    private int contactType = PICK_CONTACT_PHONE;
+
     private WarnaService getWarnaService() {
         if (warnaService == null) {
             warnaService = new WarnaService(this);
@@ -55,11 +58,18 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        loadMessages();
+        try {
+            loadMessages();
+        } catch(Exception e) {
+            Log.d(TAG, "Already has loaded messages");
+        }
+
+
         List<Warna> list = getWarnaService().listWarna("pt-br");
         for (Warna w : list) {
             Log.d(TAG, w.getName());
         }
+
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             PlaceholderFragment frag = new PlaceholderFragment();
@@ -97,6 +107,8 @@ public class MainActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, SettingsActivity.class);
+            startActivity(i);
             return true;
         }
 
@@ -105,11 +117,25 @@ public class MainActivity extends Activity {
 
     public void messageTypeSelected(View view) {
         int id = view.getId();
+        EditText et = (EditText) findViewById(R.id.number);
         if (id == R.id.radioEmail) {
-            Log.d(TAG, "Trocar para Email");
+            this.contactType = PICK_CONTACT_EMAIL;
+            et.setHint("contact@email.com");
         } else if (id == R.id.radioWhatsapp || id == R.id.radioSMS) {
             Log.d(TAG, "Trocar para Número");
+            this.contactType = PICK_CONTACT_PHONE;
+            et.setHint("+551199999999");
         }
+        et.setText("");
+    }
+
+    /**
+     * Switchs contacts types
+     * @param type
+     */
+    private void switchContactsType(int type) {
+        Button contacts = new Button(getApplicationContext());
+        contacts.setText(R.string.contacts);
     }
 
     /**
@@ -135,14 +161,13 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void loadContactsPhones(View view) {
-        Intent intent = new Intent(Intent.ACTION_PICK, Phone.CONTENT_URI);
-        startActivityForResult(intent, PICK_CONTACT_PHONE);
-    }
-
-    public void loadContactsEmails(View view) {
-        Intent intent = new Intent(Intent.ACTION_PICK, Email.CONTENT_URI);
-        startActivityForResult(intent, PICK_CONTACT_EMAIL);
+    public void loadContats(View view) {
+        Uri uri = Phone.CONTENT_URI;
+        if (this.contactType == PICK_CONTACT_EMAIL) {
+            uri = Email.CONTENT_URI;
+        }
+        Intent intent = new Intent(Intent.ACTION_PICK, uri);
+        startActivityForResult(intent, this.contactType);
     }
 
     @Override

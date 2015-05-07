@@ -10,4 +10,10 @@
     <string name="language">Language</string>
     <string name="language_dialog">Preferred language</string>
 
+    <string name="msg_could_not_send">Could not send warna</string>
+    
+    <string name="about_first">The \'Warn A Brotha\' mission is to provide you a tool to tell your friend, anonymously, about some embarrassing issues that could cause a awkward moment at the warning</string>
+    <string name="about_rules_title">Warn A Broda basic rules</string>
+    <string name="about_rules">An email address or phone number can only receive up to 2 identical messages, from different brodas, every 2 hours;\n\nA same IP Address can only send up to 3 SMS in a 24 hours time span using Warn A Broda;\n\nOur intention with this service is to be as much helpful as it can be, but if you find it rude or offensive and want to be ignored by Warn A Broda there\'s an \"Ignore me\" area where you can add your contact and never again hear from us</string>
+
 </resources>

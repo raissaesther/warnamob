@@ -9,13 +9,5 @@
         <item name="android:colorPrimaryDark">#F2E266</item>
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent">#B2BE20</item>
-
-        <item name="android:actionBarStyle">@style/AppTheme.ActionBarStyle</item>
-    </style>
-
-    <style name="AppTheme.ActionBarStyle" parent="android:Theme.Material.Light.DarkActionBar">
-        <item name="android:background">#B2BE35</item>
-        <!--<item name="android:icon">@drawable/</item>-->
-        <!--<item name="android:indeterminateProgressStyle">@style/IndeterminateProgress</item>-->
     </style>
 </resources>

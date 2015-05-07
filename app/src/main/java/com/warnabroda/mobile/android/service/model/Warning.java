@@ -13,6 +13,8 @@ public class Warning {
     private String lang_key;
     private Date created_date;
 
+    private String ip;
+
     public String getContact() {
         return contact;
     }
@@ -51,5 +53,13 @@ public class Warning {
 
     public void setCreated_date(Date created_date) {
         this.created_date = created_date;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 }

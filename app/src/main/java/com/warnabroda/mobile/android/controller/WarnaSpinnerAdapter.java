@@ -20,52 +20,30 @@ import java.util.List;
  */
 public class WarnaSpinnerAdapter extends BaseAdapter {
 
-    private WarnaService service;
-    private String lang = "pt-br";
     private List<Warna> warnas;
 
-    public WarnaSpinnerAdapter(WarnaService service) {
-        this.service = service;
-    }
-
-    private List<Warna> getWarnas() {
-        if (warnas == null) {
-            updateWarnas();
-        }
-        return this.warnas;
-    }
-
-    private void updateWarnas() {
-        this.warnas = this.service.listWarna(this.lang);
-    }
-
-    public void updateLanguage(String lang) {
-        this.lang = lang;
-        this.updateWarnas();
-        notifyDataSetInvalidated();
+    public WarnaSpinnerAdapter(List<Warna> warnas) {
+        this.warnas = warnas;
     }
 
     @Override
     public int getCount() {
-        return getWarnas().size();
+        return this.warnas.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return getWarnas().get(position);
+        return this.warnas.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return getWarnas().get(position).getId();
+        return this.warnas.get(position).getId();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Warna warna = (Warna) getItem(position);
-//        TextView view = new TextView(parent.getContext());
-//        view.setText(warna.getName());
-
         LayoutInflater mInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view;

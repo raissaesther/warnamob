@@ -3,6 +3,7 @@ package com.warnabroda.mobile.android;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,17 +22,32 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.warnabroda.mobile.android.controller.WarnaController;
+import com.warnabroda.mobile.android.controller.WarnaControllerListener;
 import com.warnabroda.mobile.android.controller.WarnaSpinnerAdapter;
 import com.warnabroda.mobile.android.service.WarnaService;
 import com.warnabroda.mobile.android.service.model.Warna;
 import com.warnabroda.mobile.android.service.model.Warning;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.util.InetAddressUtils;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements WarnaControllerListener {
 
     private static final String TAG = "MAIN";
 
@@ -42,53 +58,32 @@ public class MainActivity extends Activity {
     public static final int TYPE_SMS        = 2;
     public static final int TYPE_WHATSAPP   = 3;
 
-
-    private WarnaService warnaService = null;
-
+    private WarnaController controller;
     private int contactType = PICK_CONTACT_PHONE;
 
-    private WarnaService getWarnaService() {
-        if (warnaService == null) {
-            warnaService = new WarnaService(this);
-        }
-        return warnaService;
-    }
-
+    private Configuration config ; // variable declaration in globally
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            loadMessages();
-        } catch(Exception e) {
-            Log.d(TAG, "Already has loaded messages");
-        }
 
-
-        List<Warna> list = getWarnaService().listWarna("pt-br");
-        for (Warna w : list) {
-            Log.d(TAG, w.getName());
-        }
+        config = new Configuration(this.getResources().getConfiguration());
+        config.locale = getController().getLocale();
+        getResources().updateConfiguration(config,getResources().getDisplayMetrics());
 
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             PlaceholderFragment frag = new PlaceholderFragment();
-            frag.setWarnaService(getWarnaService());
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, frag)
-                    .commit();
+            getFragmentManager().beginTransaction().add(R.id.container, frag).commit();
         }
     }
 
-    private void loadMessages() {
-        try {
-            for (String file : getAssets().list("Files")) {
-                getWarnaService().loadMessages(file);
-                Log.d(TAG, "ARQUIVO: " + file );
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    protected WarnaController getController() {
+        if (this.controller == null) {
+            this.controller = new WarnaController(this);
+            this.controller.addListener(this);
         }
+        return this.controller;
     }
 
     @Override
@@ -100,18 +95,17 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        Class clazz = null;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                clazz = SettingsActivity.class;
+                break;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent i = new Intent(this, SettingsActivity.class);
-            startActivity(i);
-            return true;
-        }
-
+            case R.id.action_about:
+                clazz = AboutActivity.class;
+                break;
+        };
+        startActivity(new Intent(this, clazz));
         return super.onOptionsItemSelected(item);
     }
 
@@ -138,25 +132,30 @@ public class MainActivity extends Activity {
         contacts.setText(R.string.contacts);
     }
 
+    @Override
+    public void warnaResult(String result) {
+        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
 
-        private WarnaService service;
+        private WarnaController controller;
 
         public PlaceholderFragment() {}
 
-        public void setWarnaService(WarnaService service ){this.service = service;}
+        public WarnaController getController() {
+            MainActivity parent = (MainActivity) getActivity();
+            return parent.getController();
+        }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             Spinner messages = (Spinner) rootView.findViewById(R.id.messages);
-            WarnaSpinnerAdapter adapter = new WarnaSpinnerAdapter(this.service);
-            adapter.updateLanguage("pt-br");
-            messages.setAdapter(adapter);
+            messages.setAdapter(new WarnaSpinnerAdapter(getController().getMessages()));
             return rootView;
         }
     }
@@ -217,8 +216,7 @@ public class MainActivity extends Activity {
         warning.setCreated_date(new Date());
         warning.setId_message(getMessageId());
         warning.setId_contact_type(getMessageType());
-        getWarnaService().sendWarna(warning);
-        Toast.makeText(getApplicationContext(), "Enviou", Toast.LENGTH_SHORT).show();
+        getController().sendWarna(warning);
     }
 
     private int getMessageType() {

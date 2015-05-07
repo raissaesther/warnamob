@@ -45,6 +45,10 @@ public class WarnaService {
         return result.subList(0, result.size() -1);
     }
 
+    public Response sendWarning(Warning warning) {
+        return getService().sendWarning(warning);
+    }
+
     public void sendWarna(final Warning warning) {
         final WarnabrodaService service = this.getService();
         final Context thisContext = this.context;
@@ -53,7 +57,7 @@ public class WarnaService {
             protected Object doInBackground(Object[] params) {
                 Response response = null;
                 try {
-                    response = service.sendWarning(warning);
+                    response = getService().sendWarning(warning);
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage(), e);
                 }

@@ -10,4 +10,8 @@
     <string name="language">Idioma</string>
     <string name="language_dialog">Idioma preferido</string>
 
+    <string name="msg_could_not_send">Não conseguimos avisar</string>
+    <string name="about_first">O objetivo do Warn A Broda é ser uma ferramenta de apoio para dar “aquele” aviso constrangedor a um(a) amigo(a) de forma anônima; evitando momentos constrangedores tanto para você quanto para quem receber a mensagem.</string>
+    <string name="about_rules_title">Regras básicas para o uso do Warn A Broda:</string>
+    <string name="about_rules">Um email ou celular(SMS) poderá receber no máximo duas (02) mensagem iguais, no intervalo de duas horas, porém de brodas diferentes;\n\nUm mesmo IP poderá enviar no máximo (03) SMS a cada 24 horas pelo Warn A Broda;\n\nO Serviço é inofensivo, porém se você desejar, basta adicionar seu contato na ignore list e nunca mais você receberá notificações do Warn A Broda.</string>
 </resources>

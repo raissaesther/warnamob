@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.warnabroda.mobile.android.service.model.Warning;
 
 import org.apache.http.HttpEntity;
@@ -26,12 +28,14 @@ public class WarnaSender extends AsyncTask<Warning, Void, Response> {
     private WarnaSenderListener<Response> listener;
 
     public WarnaSender(WarnaService service) {
+
         this.service = service;
     }
 
     public void addListener(WarnaSenderListener listener) {
         this.listener = listener;
     }
+
 
     protected Response doInBackground(Warning... warnings) {
         Response response = null;
@@ -56,6 +60,8 @@ public class WarnaSender extends AsyncTask<Warning, Void, Response> {
     public interface WarnaSenderListener<T> {
         public void onPostExecute(T result);
     }
+
+
 
     public String getIPAddress(boolean useIPv4) {
         String ip = "";

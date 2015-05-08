@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Warn A Broda</string>
+    <string name="type_label">Warn by:</string>
+    <string name="messages_label">Broda you\'re:</string>
+    <string name="contacts_label">Contact:</string>
     <string name="contacts">Brodas</string>
     <string name="send_button">Warn da broda</string>
     <string name="about">About</string>

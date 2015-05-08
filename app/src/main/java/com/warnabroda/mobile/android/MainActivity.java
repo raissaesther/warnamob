@@ -22,6 +22,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.warnabroda.mobile.android.controller.WarnaController;
 import com.warnabroda.mobile.android.controller.WarnaControllerListener;
 import com.warnabroda.mobile.android.controller.WarnaSpinnerAdapter;
@@ -216,6 +218,7 @@ public class MainActivity extends Activity implements WarnaControllerListener {
         warning.setCreated_date(new Date());
         warning.setId_message(getMessageId());
         warning.setId_contact_type(getMessageType());
+
         getController().sendWarna(warning);
     }
 

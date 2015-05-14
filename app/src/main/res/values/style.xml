@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="white">#ffffff</color>
     <!-- inherit from the material theme -->
     <style name="AppTheme" parent="android:Theme.Material.Light">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
-        <item name="android:colorPrimary">#B2BE35</item>
+        <item name="android:colorPrimary">#b2be35</item>
         <!--   darker variant for the status bar and contextual app bars -->
-        <item name="android:colorPrimaryDark">#F2E266</item>
+        <item name="android:colorPrimaryDark">#6a7431</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
         <!--   theme UI controls like checkboxes and text fields -->
-        <item name="android:colorAccent">#B2BE20</item>
+        <!--<item name="android:colorAccent">#B2BE20</item>-->
     </style>
 </resources>

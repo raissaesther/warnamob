@@ -65,13 +65,6 @@ public class WarnaController implements WarnaSender.WarnaSenderListener<Response
         return sp.getString("preferred_lang", "pt-br");
     }
 
-    colorPrimaryDark: #6a7431
-    colorPrimary: #b2be35
-    textColorPrimary: #fffff
-    windowBackground: #ffffff
-    navigationBarColor: #000000
-    botao avisa la: #4b2e83
-
     private WarnaService getService() {
         if (service == null) {
             service = new WarnaService(this.context);

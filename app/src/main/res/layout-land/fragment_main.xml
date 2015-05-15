@@ -6,14 +6,6 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity$PlaceholderFragment">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
-        android:src="@drawable/logo_small"
-        />
-
     <TextView
         android:id="@+id/messages_label"
         android:layout_width="wrap_content"
@@ -40,7 +32,7 @@
         android:id="@+id/type"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:checkedButton="@+id/radioWhatsapp"
         android:layout_below="@id/type_label">
 

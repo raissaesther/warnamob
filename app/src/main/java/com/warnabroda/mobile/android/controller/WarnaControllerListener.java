@@ -5,5 +5,5 @@ package com.warnabroda.mobile.android.controller;
  */
 public interface WarnaControllerListener {
 
-    public void warnaResult(String result);
+    public void warnaResult(Integer code, String message);
 }

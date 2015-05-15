@@ -78,10 +78,6 @@ public class WarnaController implements WarnaSender.WarnaSenderListener<Response
     }
 
     public void sendWarna(final Warning warning) {
-//        WarnaSender sender = new WarnaSender(this.getService());
-//        sender.addListener(this);
-//        sender.execute(warning);
-
         final String URL = "http://www.warnabroda.com/warnabroda/warnings";
         // Post params to be sent to the server
         HashMap<String, Object> params = new HashMap<String, Object>();
